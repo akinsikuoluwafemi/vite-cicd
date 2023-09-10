@@ -1,38 +1,21 @@
-name: CI/CD
+name: Node.js CI
 
-on:
-  push:
-    branches:
-      - main
+on: [push]
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
+      - uses: actions/checkout@v3
+      - name: Use Node.js
+        uses: actions/setup-node@v3
         with:
-          node-version: 16
-
+          node-version: "18.x"
+          cache: "npm"
       - name: Install dependencies
         run: npm install
-
       - name: Build
-        run: npm run build
-
-      - name: Deploy to GitHub Pages
-        if: success()
-        run: |
-          git config --global user.name "Femi Akinsiku"
-          git config --global user.email "akinsiku13@gmail.com"
-          git clone --branch=gh-pages https://github.com/${{ github.repository }}.git gh-pages
-          cd gh-pages
-          git rm -rf .
-          cp -r ../build/* .
-          git add .
-          git commit -m "Deploy to GitHub Pages"
-          git push origin gh-pages
+        run: npm run build --if-present
+      - name: Test
+        run: npm test
