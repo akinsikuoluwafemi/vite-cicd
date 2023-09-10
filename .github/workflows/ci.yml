@@ -27,8 +27,8 @@ jobs:
       - name: Deploy to GitHub Pages
         if: success()
         run: |
-          git config --global user.name "Your Name"
-          git config --global user.email "youremail@example.com"
+          git config --global user.name "Femi Akinsiku"
+          git config --global user.email "akinsiku13@gmail.com"
           git clone --branch=gh-pages https://github.com/${{ github.repository }}.git gh-pages
           cd gh-pages
           git rm -rf .
